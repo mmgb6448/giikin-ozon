@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>俄语标签排版 · 一键去重 & 格式化</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+        }
+        body {
+            background: #f2f5f9;
+            min-height: 100vh;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .card {
+            max-width: 900px;
+            width: 100%;
+            background: white;
+            border-radius: 32px;
+            box-shadow: 0 25px 40px -10px rgba(0, 20, 40, 0.2);
+            padding: 32px 32px 40px;
+        }
+        h1 {
+            font-size: 2rem;
+            font-weight: 650;
+            margin: 0 0 0.25rem;
+            color: #0a2647;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .sub {
+            color: #2c3e66;
+            margin-bottom: 2.2rem;
+            font-size: 1rem;
+            border-left: 5px solid #1e4f8a;
+            padding-left: 20px;
+            background: #ecf3fc;
+            border-radius: 0 16px 16px 0;
+            line-height: 1.6;
+        }
+        .sub strong {
+            background: #d4e2f2;
+            padding: 3px 10px;
+            border-radius: 30px;
+            font-weight: 600;
+        }
+        .input-area, .output-area {
+            margin-bottom: 28px;
+        }
+        .input-area label, .output-area label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #1e3a6b;
+            font-size: 0.95rem;
+            letter-spacing: 0.3px;
+        }
+        textarea {
+            width: 100%;
+            padding: 18px 20px;
+            font-size: 1.05rem;
+            border: 2px solid #cfddee;
+            border-radius: 24px;
+            background: #ffffff;
+            transition: 0.2s;
+            outline: none;
+            color: #102a44;
+            resize: vertical;
+            line-height: 1.6;
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', monospace;
+        }
+        textarea:focus {
+            border-color: #1e4f8a;
+            box-shadow: 0 0 0 4px rgba(30, 79, 138, 0.15);
+        }
+        textarea[readonly] {
+            background: #f5faff;
+            border-color: #b6cae5;
+            color: #102a44;
+        }
+        .button-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin: 32px 0 24px;
+            justify-content: center;
+        }
+        .primary-btn {
+            background: #1e4f8a;
+            border: none;
+            padding: 16px 34px;
+            border-radius: 60px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: white;
+            cursor: pointer;
+            transition: 0.15s;
+            flex: 0 1 auto;
+            min-width: 220px;
+            box-shadow: 0 8px 16px rgba(20, 60, 120, 0.25);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            border: 2px solid transparent;
+        }
+        .primary-btn:hover {
+            background: #0f3a66;
+            transform: translateY(-2px);
+            box-shadow: 0 12px 24px rgba(20, 60, 120, 0.3);
+        }
+        .primary-btn:active {
+            background: #092d4f;
+            transform: translateY(2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        .secondary-btn {
+            background: white;
+            border: 2px solid #b0c8e7;
+            padding: 16px 34px;
+            border-radius: 60px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #1e3a6b;
+            cursor: pointer;
+            transition: 0.15s;
+            flex: 0 1 auto;
+            min-width: 180px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .secondary-btn:hover {
+            background: #ecf3fd;
+            border-color: #7f9fd5;
+            transform: translateY(-2px);
+        }
+        .secondary-btn:active {
+            background: #d9e4f5;
+            transform: translateY(1px);
+        }
+        .stats {
+            font-size: 0.95rem;
+            color: #2f4b74;
+            background: #e5effa;
+            padding: 8px 20px;
+            border-radius: 40px;
+            display: inline-block;
+            margin-top: 10px;
+        }
+        .footer-note {
+            margin-top: 30px;
+            font-size: 0.9rem;
+            color: #4f658d;
+            text-align: center;
+            border-top: 1px dashed #acc4e0;
+            padding-top: 22px;
+        }
+        .footer-note code {
+            background: #e5ecf5;
+            padding: 4px 14px;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            color: #10345e;
+        }
+        .example-block {
+            background: #f8fbff;
+            border-radius: 20px;
+            padding: 10px 18px;
+            margin-top: 10px;
+            font-size: 0.9rem;
+            border: 1px solid #d7e3f5;
+        }
+    </style>
+</head>
+<body>
+<div class="card">
+    <h1>🏷️ 标签排版 · 俄语去重优化</h1>
+    <div class="sub">
+        ✨ 每行一个俄语短语 · 一键完成：去尾空格、删除超长(>29符)、去重、空格转下划线、添加#、合并为一行
+        <br><strong>示例数据已预填</strong> — 点击下方按钮一键得到最终标签
+    </div>
+
+    <!-- 输入区：多行文本（换行分隔） -->
+    <div class="input-area">
+        <label for="inputText">📥 输入俄语短语 (每行一个，换行分隔)</label>
+        <textarea id="inputText" rows="6" placeholder="например:&#10;жидкое стекло для губ mixit&#10;жидкое стекло для губ прозрачный&#10;...">жидкое стекло для губ mixit
+жидкое стекло для губ прозрачный
+жидкое стекло для губ от про мейкап
+жидкое стекло для губ стойкий
+жидкое стекло для губ parisa
+жидкое стекло для губ mixit
+блеск для губ
+жидкое стекло для губ стойкий</textarea>
+    </div>
+
+    <!-- 输出区：只读，展示最终排版结果 -->
+    <div class="output-area">
+        <label for="outputText">✅ 排版结果 (只读 — 一键生成)</label>
+        <textarea id="outputText" rows="4" readonly placeholder="点击「一键排版去重」后显示结果..."></textarea>
+    </div>
+
+    <!-- 两个核心按钮：一键排版去重 + 复制 -->
+    <div class="button-group">
+        <button class="primary-btn" id="processBtn">⚡ 一键排版去重</button>
+        <button class="secondary-btn" id="copyBtn">📋 复制结果</button>
+    </div>
+
+    <!-- 简单统计 (便于观察) -->
+    <div class="stats" id="stats">
+        ⏳ 当前输出行数: 0 | 总字符: 0
+    </div>
+
+    <div class="example-block">
+        <strong>📌 处理流程说明：</strong> ① 移除每行末尾空格 → ② 删除字符数＞29的行（不计末尾空格） → ③ 去重（保留最先出现的） → ④ 行内空格替换为下划线 → ⑤ 每行开头添加「#」 → ⑥ 用空格合并所有行
+    </div>
+
+    <div class="footer-note">
+        <code>🔹 输入改动后需重新点击“一键排版去重”  🔹 复制按钮将复制最终排版结果</code>
+    </div>
+</div>
+
+<script>
+    (function() {
+        const inputEl = document.getElementById('inputText');
+        const outputEl = document.getElementById('outputText');
+        const processBtn = document.getElementById('processBtn');
+        const copyBtn = document.getElementById('copyBtn');
+        const statsEl = document.getElementById('stats');
+
+        // 辅助：更新统计
+        function updateStats() {
+            const text = outputEl.value;
+            const lines = text === '' ? [] : text.split(/\r?\n/);
+            const lineCount = lines.length;
+            const charCount = text.length;
+            statsEl.innerHTML = `📊 当前输出行数: ${lineCount} | 总字符: ${charCount}`;
+        }
+
+        // 核心处理函数：一键排版去重
+        function processText() {
+            const raw = inputEl.value;
+            // 1. 按行分割，并去除每行末尾空格 (trimEnd)
+            let lines = raw.split(/\r?\n/).map(line => line.trimEnd());
+            // 2. 过滤掉空行（trimEnd后为空字符串的行）
+            lines = lines.filter(line => line !== '');
+            // 3. 删除字符数超过29的行 (基于当前字符串长度，已无末尾空格)
+            lines = lines.filter(line => line.length <= 29);
+            // 4. 去重 (保留首次出现的顺序)
+            const seen = new Set();
+            const uniqueLines = [];
+            for (const line of lines) {
+                if (!seen.has(line)) {
+                    seen.add(line);
+                    uniqueLines.push(line);
+                }
+            }
+            // 5. 将每行内的所有空格替换为下划线
+            const underscored = uniqueLines.map(line => line.replace(/ /g, '_'));
+            // 6. 在每行前面添加 "#"
+            const hashed = underscored.map(line => '#' + line);
+            // 7. 用空格合并为一行
+            const finalResult = hashed.join(' ');
+            // 更新输出框
+            outputEl.value = finalResult;
+            updateStats();
+        }
+
+        // 复制功能 (带fallback)
+        function copyResult() {
+            const text = outputEl.value;
+            if (!text.trim()) {
+                alert('没有可复制的内容，请先进行排版');
+                return;
+            }
+
+            // 现代 clipboard API
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).then(() => {
+                    showCopyFeedback(true);
+                }).catch(err => {
+                    console.warn('Clipboard API 失败，使用 fallback', err);
+                    fallbackCopy(text);
+                });
+            } else {
+                fallbackCopy(text);
+            }
+        }
+
+        function fallbackCopy(text) {
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            textarea.style.position = 'fixed';
+            textarea.style.opacity = '0';
+            textarea.style.left = '-999px';
+            document.body.appendChild(textarea);
+            textarea.select();
+            textarea.setSelectionRange(0, 99999);
+            try {
+                const success = document.execCommand('copy');
+                showCopyFeedback(success);
+            } catch (err) {
+                console.error('fallback 复制失败', err);
+                showCopyFeedback(false);
+            }
+            document.body.removeChild(textarea);
+        }
+
+        function showCopyFeedback(success) {
+            const originalText = copyBtn.textContent;
+            if (success) {
+                copyBtn.textContent = '✅ 已复制！';
+            } else {
+                copyBtn.textContent = '❌ 复制失败';
+            }
+            setTimeout(() => {
+                copyBtn.textContent = originalText;
+            }, 1200);
+        }
+
+        // 事件绑定
+        processBtn.addEventListener('click', processText);
+
+        copyBtn.addEventListener('click', copyResult);
+
+        // 初始化：页面加载后自动执行一次，展示示例结果
+        window.addEventListener('load', () => {
+            processText();
+        });
+
+        // 当输入框变化时不自动更新，需手动点击按钮（符合预期）
+        // 但若用户想重置，可重新点击
+    })();
+</script>
+
+<!-- 测试数据已内嵌，完全符合示例：
+     输入为换行分隔，一键得到：
+     #жидкое_стекло_для_губ_mixit #жидкое_стекло_для_губ_стойкий #жидкое_стекло_для_губ_parisa #блеск_для_губ
+     且末尾空格正确处理，复制可靠。
+-->
+</body>
+</html>
